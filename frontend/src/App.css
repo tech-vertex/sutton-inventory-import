@@ -1,0 +1,128 @@
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+header {
+  text-align: center;
+  padding: 48px 20px 32px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+header p {
+  font-size: 19px;
+  line-height: 1.4211;
+  letter-spacing: 0.012em;
+  color: var(--text-secondary);
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.card h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.card p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+button {
+  padding: 11px 22px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.result p {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.result pre {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 14px;
+  overflow-x: auto;
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 36px;
+  }
+
+  header p {
+    font-size: 17px;
+  }
+
+  .container {
+    padding: 24px 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
