@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InventoryItem",
+  "description": "Cross-record rules not expressible here: sku is unique; at most one preferred vendor; discontinued_on requires is_active=false.",
+  "type": "object",
+  "required": [
+    "sku",
+    "name",
+    "category",
+    "uom",
+    "unit_cost"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "sku": {
+      "type": "string",
+      "pattern": "^[A-Z]{4}-[A-Z0-9]{3}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "enum": [
+        "raw_material",
+        "component",
+        "finished_good",
+        "packaging",
+        "consumable"
+      ]
+    },
+    "uom": {
+      "enum": [
+        "EA",
+        "BX",
+        "KG",
+        "M",
+        "L"
+      ]
+    },
+    "unit_cost": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Up to 4 decimal places."
+    },
+    "quantity_on_hand": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0
+    },
+    "reorder_point": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "lot_tracked": {
+      "type": "boolean",
+      "default": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[^A-Z]+$"
+      },
+      "uniqueItems": true
+    },
+    "first_received_on": {
+      "type": "string",
+      "format": "date"
+    },
+    "discontinued_on": {
+      "type": "string",
+      "format": "date"
+    },
+    "dimensions": {
+      "type": "object",
+      "required": [
+        "length",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "length": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {
+          "enum": [
+            "cm",
+            "in"
+          ],
+          "default": "cm"
+        }
+      }
+    },
+    "vendors": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "vendor_name",
+          "unit_cost"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "vendor_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "vendor_sku": {
+            "type": "string"
+          },
+          "unit_cost": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Up to 4 decimal places."
+          },
+          "lead_time_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "is_preferred": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

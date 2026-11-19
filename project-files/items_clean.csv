@@ -1,0 +1,26 @@
+sku,name,description,category,uom,unit_cost,quantity_on_hand,reorder_point,is_active,lot_tracked,tags,first_received_on,discontinued_on,length,width,height,dimension_unit,vendor_1_name,vendor_1_sku,vendor_1_unit_cost,vendor_1_lead_time_days,vendor_1_preferred,vendor_2_name,vendor_2_sku,vendor_2_unit_cost,vendor_2_lead_time_days,vendor_2_preferred,vendor_3_name,vendor_3_sku,vendor_3_unit_cost,vendor_3_lead_time_days,vendor_3_preferred
+ATHM-UWQ,Nylon Box 12x12x8,,packaging,EA,14.78,,205,true,false,,2019-01-22,,,,,,Summit Polymers,,9.19,54,true,,,,,,,,,,
+FHYA-9RE,Copper Void Fill,Copper void fill for general use.,packaging,BX,12.53,3921,,true,false,food-safe,2024-11-18,,49,45.9,29,cm,Summit Polymers,,10.39,11,true,Copperline Supply,CO-20563,10.49,44,false,Ridgeline Metals,RI-30780,8.43,41,false
+KYXK-U9F,Stainless Bar Stock,,raw_material,KG,328.41,4672,381,true,false,imported|food-safe,2023-04-24,,,,,,,,,,,,,,,,,,,,
+MPHS-FJ8,Kraft Pallet Wrap,Kraft pallet wrap for general use.,packaging,BX,11.9,318,320,true,false,,2025-07-07,,,,,,Acme Industrial,AC-62034,8.63,32,false,Tidewater Fasteners,,10.03,,true,,,,,
+BGFT-79K,Rubber Pellets,,raw_material,M,330.26,3234,,true,false,seasonal,2019-08-07,,7.3,49.5,16.4,cm,,,,,,,,,,,,,,,
+UENS-KYS,Stainless Zip Ties (100),,consumable,BX,20.97,2990,85,true,false,hazmat,2021-08-01,,11.3,57.6,47.2,in,Keystone Components,,12.39,,false,Summit Polymers,SU-86067,12.82,17,false,Northwind Supply,,14.98,47,true
+QPPK-BVU,Copper Workbench,,finished_good,EA,251.47,1730,,true,true,,2021-10-27,,67.1,24.4,24.6,cm,,,,,,,,,,,,,,,
+BNDA-5CP,Fiberglass Shelf Unit,,finished_good,EA,566.42,2398,402,true,false,,,,96.1,64.2,58,cm,Acme Industrial,AC-44174,443.41,51,true,,,,,,,,,,
+SYMN-ZDA,Zinc-Plated Box 12x12x8,,packaging,EA,11.63,3306,48,true,false,domestic|food-safe,2025-10-28,,96.5,79.4,29.5,cm,Keystone Components,KE-83278,8.76,37,true,,,,,,,,,,
+RXNX-3TE,Stainless Bracket,Stainless bracket for general use.,component,BX,10.93,563,,true,true,imported,2022-07-26,,28.9,65.9,3.1,cm,,,,,,,,,,,,,,,
+CUPT-7MN,Fiberglass Sheet 4x8,Fiberglass sheet 4x8 for general use.,raw_material,M,230.11,655,331,true,false,,,,,,,,Summit Polymers,SU-29351,192.08,,false,,,,,,,,,,
+NJEP-D6U,Steel Void Fill,"Steel void fill, general purpose",packaging,EA,5.11,1272,,true,false,,2021-05-19,,27.8,73.9,21.2,cm,Summit Polymers,,3.79,39,false,Tidewater Fasteners,,4.1,11,true,,,,,
+JMSH-P76,Copper Hinge,,component,EA,27.83,34,230,true,false,domestic|rohs|hazmat,2025-04-25,,105.2,27.2,18.4,cm,Acme Industrial,,22.65,18,true,Bluefin Packaging,BL-80723,21.98,54,false,,,,,
+URTU-TMP,Stainless Workbench,,finished_good,EA,478.23,2296,,true,false,,2022-10-16,,,,,,Acme Industrial,AC-80658,383.87,,false,,,,,,,,,,
+SNEL-9H7,Rubber Tube 1in,,raw_material,M,391.91,2200,,false,false,rohs|hazmat,2019-03-17,,102,47.5,14,in,,,,,,,,,,,,,,,
+WNFB-4UP,Steel Storage Bin,Steel storage bin for general use.,finished_good,EA,300.94,4112,,false,false,,2022-06-10,,,,,,Keystone Components,,214.67,,true,Tidewater Fasteners,,251.22,50,false,,,,,
+YTZD-F3V,Zinc-Plated Shop Towels,,consumable,EA,36.16,4788,349,true,false,imported|bulk,2023-08-09,,9.6,78.5,31.5,in,Keystone Components,KE-29001,23.67,34,true,,,,,,,,,,
+SRMH-NZ7,Brass Coil,,raw_material,M,169.79,,361,false,false,,2022-11-22,,77,67.5,31,cm,Acme Industrial,AC-29384,132.76,,true,,,,,,,,,,
+EHAU-PAY,Kraft Void Fill,,packaging,BX,2.37,786,,true,false,imported|oversize,2022-06-02,,90.7,12.2,2.9,cm,Bluefin Packaging,BL-81824,1.35,,false,Acme Industrial,,1.37,57,false,,,,,
+KXZM-QM9,Stainless Shop Towels,,consumable,BX,51.64,1156,,true,false,oversize|bulk,2025-04-06,,46.2,65.8,17.6,cm,Acme Industrial,AC-93828,32.86,16,false,,,,,,,,,,
+SZMV-MTN,Brass Sheet 4x8,Brass sheet 4x8 for general use.,raw_material,M,107.22,4876,,true,false,domestic|seasonal,,,89,35.2,47.5,cm,Northwind Supply,NO-16909,75,31,true,,,,,,,,,,
+ULZQ-7DK,Rubber Zip Ties (100),,consumable,L,56.89,770,452,true,false,seasonal|rohs,2023-09-03,,,,,,Acme Industrial,AC-35265,43,17,true,,,,,,,,,,
+GGQX-9SU,Rubber Hex Bolt M8,,component,BX,26.77,2119,408,true,false,seasonal|hazmat,2021-05-22,,6.5,21.1,4.9,cm,Copperline Supply,,20.87,,false,Ridgeline Metals,RI-15697,17.6,50,true,,,,,
+WSSD-5Z7,Aluminum Sheet 4x8,,raw_material,KG,275.42,,191,true,false,,2020-05-08,,,,,,Copperline Supply,CO-19584,232.4,46,true,Tidewater Fasteners,,227.28,41,false,Summit Polymers,SU-76966,233.66,25,false
+QUTP-5L8,Fiberglass Foam Insert,Fiberglass foam insert for general use.,packaging,BX,5.58,846,43,true,false,kitted|imported|hazmat,2025-01-21,,,,,,Tidewater Fasteners,TI-60426,3.12,48,true,,,,,,,,,,
