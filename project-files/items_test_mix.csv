@@ -1,0 +1,16 @@
+sku,name,description,category,uom,unit_cost,quantity_on_hand,reorder_point,is_active,lot_tracked,tags,first_received_on,discontinued_on,length,width,height,dimension_unit,vendor_1_name,vendor_1_sku,vendor_1_unit_cost,vendor_1_lead_time_days,vendor_1_preferred,vendor_2_name,vendor_2_sku,vendor_2_unit_cost,vendor_2_lead_time_days,vendor_2_preferred,vendor_3_name,vendor_3_sku,vendor_3_unit_cost,vendor_3_lead_time_days,vendor_3_preferred
+PERF-001,Perfect Item,This one is perfect.,packaging,EA,10.50,100,50,true,false,imported,2024-01-15,,10,20,30,cm,Vendor A,VA-123,8.50,7,true,,,,,,,,,,,
+messy-sku,  Needs Auto-Fix  ,Lowercase SKU and extra spaces.,Raw Material,ea,25.99,,,yes,no,food-safe|bulk,2024-02-20,,,,,,Vendor B,,20.00,,false,,,,,,,,,,,
+DUPE-123,First Duplicate,This SKU appears twice.,component,BX,15.00,50,,true,false,,2024-03-10,,,,,,,,,,,,,,,,,,,,
+DUPE-123,Second Duplicate,This should fail - duplicate SKU.,component,EA,16.00,60,,true,false,,2024-03-11,,,,,,,,,,,,,,,,,,,,
+BADSKU,Invalid Format,SKU doesn't match XXXX-XXX pattern.,consumable,L,5.00,,,true,false,,,,,,,,,,,,,,,,,,,,,,
+,Missing SKU,This row has no SKU at all.,packaging,EA,12.00,100,,true,false,,,,,,,,,,,,,,,,,,,,,,
+MISS-REQ,,Missing required name field.,packaging,EA,8.00,,,true,false,,,,,,,,,,,,,,,,,,,,,,
+NOCT-001,Missing Category,No category provided.,,BX,20.00,,,true,false,,,,,,,,,,,,,,,,,,,,,,
+NOUOM-99,Missing UOM,No unit of measure.,packaging,,15.00,,,true,false,,,,,,,,,,,,,,,,,,,,,,
+DIMS-123,Item with Dimensions,Has length width height.,finished_good,EA,45.00,25,10,true,false,oversize,2024-05-01,,100,50,25,in,,,,,,,,,,,,,,,
+VEND-M3X,Multiple Vendors,Three vendors with one preferred.,component,EA,30.00,200,50,true,false,imported|rohs,2024-06-15,,15,10,8,cm,Primary Vendor,PV-001,25.00,5,true,Secondary Vendor,SV-002,28.00,10,false,Third Vendor,TV-003,27.50,7,false
+BAD-PREF,Two Preferred,Two vendors marked preferred - should fail.,packaging,BX,18.00,100,,true,false,,2024-07-01,,,,,,Vendor X,VX-1,15.00,5,true,Vendor Y,VY-2,16.00,7,true,,,,,
+DISC-BAD,Discontinued Wrong,discontinued_on set but is_active=true.,consumable,EA,10.00,0,,true,false,,2024-01-01,2024-12-01,,,,,,,,,,,,,,,,,,,
+DISC-OK1,Discontinued Correct,discontinued_on set and is_active=false.,consumable,EA,10.00,0,,false,false,,2024-01-01,2024-12-01,,,,,,,,,,,,,,,,,,,
+TAGS-TST,Tag Parsing Test,Tests pipe-separated tags.,packaging,BX,12.50,150,25,yes,no,domestic|food-safe|seasonal|bulk,2024-08-20,,,,,,Acme Supply,AS-999,10.00,14,true,,,,,,,,,,,
