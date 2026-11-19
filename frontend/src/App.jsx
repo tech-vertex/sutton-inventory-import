@@ -11,6 +11,7 @@ function App() {
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState(null);
   const [dragActive, setDragActive] = useState(false);
+  const [filter, setFilter] = useState('all'); // all, valid, invalid
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -38,6 +39,85 @@ function App() {
     }
   };
 
+  const autoFixItem = (item) => {
+    const fixed = { ...item };
+    const changes = [];
+
+    // Auto-fix SKU: uppercase and trim
+    if (fixed.sku && typeof fixed.sku === 'string') {
+      const original = fixed.sku;
+      fixed.sku = fixed.sku.trim().toUpperCase();
+      if (original !== fixed.sku) {
+        changes.push(`SKU: "${original}" → "${fixed.sku}"`);
+      }
+    }
+
+    // Auto-fix name: trim whitespace
+    if (fixed.name && typeof fixed.name === 'string') {
+      const original = fixed.name;
+      fixed.name = fixed.name.trim();
+      if (original !== fixed.name && original.length !== fixed.name.length) {
+        changes.push(`Name: trimmed whitespace`);
+      }
+    }
+
+    // Auto-fix category: lowercase to snake_case
+    if (fixed.category && typeof fixed.category === 'string') {
+      const original = fixed.category;
+      fixed.category = fixed.category.trim().toLowerCase().replace(/\s+/g, '_');
+      if (original !== fixed.category) {
+        changes.push(`Category: "${original}" → "${fixed.category}"`);
+      }
+    }
+
+    // Auto-fix UOM: uppercase
+    if (fixed.uom && typeof fixed.uom === 'string') {
+      const original = fixed.uom;
+      fixed.uom = fixed.uom.trim().toUpperCase();
+      if (original !== fixed.uom) {
+        changes.push(`UOM: "${original}" → "${fixed.uom}"`);
+      }
+    }
+
+    // Auto-fix booleans: parse various formats
+    ['is_active', 'lot_tracked'].forEach(field => {
+      if (fixed[field] !== undefined && fixed[field] !== null && fixed[field] !== '') {
+        const original = fixed[field];
+        const str = String(fixed[field]).toLowerCase().trim();
+
+        if (['yes', 'y', 'true', '1', 't'].includes(str)) {
+          fixed[field] = true;
+          if (original !== true) changes.push(`${field}: "${original}" → true`);
+        } else if (['no', 'n', 'false', '0', 'f'].includes(str)) {
+          fixed[field] = false;
+          if (original !== false) changes.push(`${field}: "${original}" → false`);
+        }
+      }
+    });
+
+    // Auto-fix tags: parse pipe-separated string
+    if (fixed.tags && typeof fixed.tags === 'string') {
+      const original = fixed.tags;
+      fixed.tags = fixed.tags.split('|').map(t => t.trim().toLowerCase()).filter(t => t);
+      if (fixed.tags.length > 0) {
+        changes.push(`Tags: parsed ${fixed.tags.length} tags`);
+      }
+    }
+
+    // Set defaults
+    if (!fixed.quantity_on_hand || fixed.quantity_on_hand === '') {
+      fixed.quantity_on_hand = 0;
+    }
+    if (fixed.is_active === undefined || fixed.is_active === null || fixed.is_active === '') {
+      fixed.is_active = true;
+    }
+    if (fixed.lot_tracked === undefined || fixed.lot_tracked === null || fixed.lot_tracked === '') {
+      fixed.lot_tracked = false;
+    }
+
+    return { fixed, changes };
+  };
+
   const handleFile = (selectedFile) => {
     setFile(selectedFile);
     setImportResult(null);
@@ -48,10 +128,20 @@ function App() {
       skipEmptyLines: true,
       complete: async (results) => {
         console.log('Parsed', results.data.length, 'rows');
-        setParsedData(results.data);
+
+        // Auto-fix all items
+        const fixedData = results.data.map(item => {
+          const { fixed, changes } = autoFixItem(item);
+          return { ...fixed, _autoFixes: changes };
+        });
+
+        const totalFixes = fixedData.reduce((sum, item) => sum + (item._autoFixes?.length || 0), 0);
+        console.log(`Auto-fixed ${totalFixes} issues across ${fixedData.length} rows`);
+
+        setParsedData(fixedData);
 
         // Validate immediately
-        await validateData(results.data, selectedFile.name);
+        await validateData(fixedData, selectedFile.name);
       },
       error: (error) => {
         console.error('Parse error:', error);
@@ -195,6 +285,27 @@ function App() {
                 </div>
               </div>
 
+              <div className="filter-tabs">
+                <button
+                  className={filter === 'all' ? 'active' : ''}
+                  onClick={() => setFilter('all')}
+                >
+                  All Rows ({validation.summary.total})
+                </button>
+                <button
+                  className={filter === 'valid' ? 'active' : ''}
+                  onClick={() => setFilter('valid')}
+                >
+                  Valid Only ({validation.summary.valid})
+                </button>
+                <button
+                  className={filter === 'invalid' ? 'active' : ''}
+                  onClick={() => setFilter('invalid')}
+                >
+                  Needs Fixing ({validation.summary.invalid})
+                </button>
+              </div>
+
               <div className="table-container">
                 <table>
                   <thead>
@@ -207,13 +318,20 @@ function App() {
                       <th>UOM</th>
                       <th>Unit Cost</th>
                       <th>Quantity</th>
+                      <th>Auto-Fixed</th>
                       <th>Errors</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {validation.results.map((result, idx) => (
-                      <tr key={idx} className={result.valid ? 'row-valid' : 'row-invalid'}>
-                        <td>{idx + 1}</td>
+                    {validation.results
+                      .filter(result => {
+                        if (filter === 'valid') return result.valid;
+                        if (filter === 'invalid') return !result.valid;
+                        return true;
+                      })
+                      .map((result, idx) => (
+                      <tr key={result.index} className={result.valid ? 'row-valid' : 'row-invalid'}>
+                        <td>{result.index + 1}</td>
                         <td>
                           {result.valid ? (
                             <span className="badge badge-success">✓ Valid</span>
@@ -227,6 +345,15 @@ function App() {
                         <td>{result.item.uom}</td>
                         <td>{result.item.unit_cost}</td>
                         <td>{result.item.quantity_on_hand || 0}</td>
+                        <td>
+                          {result.item._autoFixes && result.item._autoFixes.length > 0 && (
+                            <div className="fix-list">
+                              {result.item._autoFixes.map((fix, i) => (
+                                <div key={i} className="fix-item">✓ {fix}</div>
+                              ))}
+                            </div>
+                          )}
+                        </td>
                         <td>
                           {result.errors.length > 0 && (
                             <div className="error-list">

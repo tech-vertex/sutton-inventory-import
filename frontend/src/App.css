@@ -160,6 +160,40 @@ button:disabled {
   padding: 24px;
 }
 
+/* Filter Tabs */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 4px;
+  background: var(--bg);
+  border-radius: 10px;
+}
+
+.filter-tabs button {
+  flex: 1;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-tabs button:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.filter-tabs button.active {
+  background: var(--bg-card);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
 .preview-header {
   display: flex;
   justify-content: space-between;
@@ -253,6 +287,21 @@ tr:last-child td {
   padding: 4px 8px;
   background: rgba(255, 59, 48, 0.1);
   border-radius: 6px;
+}
+
+/* Auto-fixes */
+.fix-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fix-item {
+  font-size: 12px;
+  color: var(--success);
+  padding: 3px 6px;
+  background: rgba(52, 199, 89, 0.1);
+  border-radius: 4px;
 }
 
 /* Import Result */
