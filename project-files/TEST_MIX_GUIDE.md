@@ -8,8 +8,8 @@ This file explains what `items_test_mix.csv` tests:
 1. **PERF-001** - Perfect Item
    - Clean data, should import immediately
 
-2. **messy-sku** → **MESSY-SKU** (auto-fixed)
-   - ✓ SKU: "messy-sku" → "MESSY-SKU" (uppercase)
+2. **mess-sku** → **MESS-SKU** (auto-fixed)
+   - ✓ SKU: "mess-sku" → "MESS-SKU" (uppercase)
    - ✓ Name: "  Needs Auto-Fix  " → "Needs Auto-Fix" (trim)
    - ✓ Category: "Raw Material" → "raw_material" (normalize)
    - ✓ UOM: "ea" → "EA" (uppercase)
@@ -54,10 +54,10 @@ This file explains what `items_test_mix.csv` tests:
 12. **NOCT-001**
    - Error: "Category is required"
 
-13. **NOUOM-99**
+13. **NOUM-X99**
    - Error: "UOM is required"
 
-14. **BAD-PREF**
+14. **BADP-REF**
    - Error: "At most one vendor can be marked as preferred"
    - Two vendors both marked as preferred
 
