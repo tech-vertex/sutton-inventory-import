@@ -1,114 +1,149 @@
-# Full-Stack Starter Template
+# Inventory Bulk Import Tool
 
-A clean, modern starter template for building full-stack web applications.
+A web application for bulk importing inventory items from CSV files into a warehouse management system. Built for operations admins who are moving off spreadsheets.
 
-## Tech Stack
+## Features
 
-- **Frontend:** React + Vite with hot module reload
-- **Backend:** Node.js + Express with nodemon auto-reload
-- **Database:** SQLite (better-sqlite3)
-- **Styling:** Clean design system with Apple-inspired aesthetics
+### Smart Import Process
+- **Drag-and-drop CSV upload** with instant parsing
+- **Automatic fixes** for common data issues:
+  - SKU formatting (uppercase, trim)
+  - Category normalization
+  - Boolean parsing (yes/no, true/false, 1/0)
+  - Tag parsing from pipe-separated values
+  - Whitespace trimming
+  - Default values for optional fields
+
+### Validation & Trust
+- **Real-time validation** against schema rules
+- **Clear error messages** for each invalid field
+- **Duplicate SKU detection** (within file and database)
+- **Show exactly what was auto-fixed** with green checkmarks
+
+### Effortless UX
+- **Filter views:** All / Valid Only / Needs Fixing
+- **Visual status indicators** for each row
+- **Preview before import** - see exactly what will happen
+- **Post-import summary** with imported SKUs
+- **No round-trips to spreadsheet** - everything in-app
 
 ## Prerequisites
 
-- Node.js (v18 or higher)
+- Node.js v18 or higher
 - npm
+
+## Running the Application
+
+### Quick Start (from project root):
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open **http://localhost:5173** in your browser.
+
+## How to Use
+
+1. **Drop or select a CSV file**
+   - Supported format: CSV with headers
+   - See `project-files/items_clean.csv` for example
+
+2. **Review auto-fixes and validation**
+   - Green indicators show what was automatically fixed
+   - Red indicators show errors that need attention
+   - Use filters to focus on what matters
+
+3. **Import**
+   - Only valid items will be imported
+   - See exactly which SKUs were added
+   - Database prevents duplicates
 
 ## Project Structure
 
 ```
 sutton-project/
-├── frontend/          # React application
+├── backend/
+│   ├── server.js         # API endpoints (validate, import)
+│   ├── db.js             # SQLite schema & connection
+│   ├── inventory.db      # Database (auto-created)
+│   └── package.json
+├── frontend/
 │   ├── src/
-│   │   ├── App.jsx   # Main component
-│   │   ├── App.css   # Component styles
-│   │   └── index.css # Global styles & design tokens
+│   │   ├── App.jsx       # Main import UI
+│   │   └── App.css       # Styling
 │   └── package.json
-├── backend/           # Express server
-│   ├── server.js     # API server
-│   ├── db.js         # Database connection
-│   └── package.json
-└── README.md
+└── project-files/
+    ├── items_clean.csv   # 25 well-formed items
+    ├── items_messy.csv   # 200 items with issues
+    └── schema.json       # JSON schema reference
 ```
 
-## Quick Start
+## Item Schema
 
-### 1. Install Dependencies
+Required fields:
+- **sku** - Format: `XXXX-XXX` (e.g., `PACK-7Q2`)
+- **name** - 1-120 characters
+- **category** - One of: raw_material, component, finished_good, packaging, consumable
+- **uom** - One of: EA, BX, KG, M, L
+- **unit_cost** - Decimal ≥ 0 (up to 4 decimal places)
 
-```bash
-# Backend
-cd backend
-npm install
+Optional fields:
+- quantity_on_hand, reorder_point, description, tags, is_active, lot_tracked,
+  first_received_on, discontinued_on, dimensions, vendors
 
-# Frontend
-cd ../frontend
-npm install
-```
-
-### 2. Run Development Servers
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-npm run dev
-```
-Server: http://localhost:3001 (auto-restarts on file changes)
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm run dev
-```
-App: http://localhost:5173 (hot reload enabled)
-
-### 3. Open Application
-
-Visit http://localhost:5173 in your browser
+See `project-files/schema.json` for complete schema.
 
 ## API Endpoints
 
-- `GET /api/health` - Health check
-- `GET /api/data` - Sample endpoint
+- `POST /api/validate` - Validate items before import
+- `POST /api/import` - Import valid items to database
+- `GET /api/items` - Retrieve all inventory items
+- `GET /api/history` - View import history
 
-## Development Features
+## Tech Stack
 
-- **Hot Reload:** Frontend updates instantly on save
-- **Auto-Restart:** Backend restarts on code changes
-- **Database Ready:** SQLite connection configured
-- **Modern Design:** Clean UI with design system variables
+- **Frontend:** React + Vite + PapaCSV (CSV parsing)
+- **Backend:** Node.js + Express
+- **Database:** SQLite + better-sqlite3
+- **Validation:** Custom validators matching schema requirements
 
-## Scripts
+## Development
 
-**Backend:**
-- `npm start` - Run server (production)
-- `npm run dev` - Run with nodemon (development)
+The app uses hot reload on both frontend and backend for rapid development:
+- Frontend: Vite HMR (instant updates)
+- Backend: nodemon (auto-restart on changes)
 
-**Frontend:**
-- `npm run dev` - Start dev server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
+## Testing Files
 
-## Design System
+Use the provided sample files to test:
 
-The template includes a modern design system with:
-- Apple-inspired color palette
-- SF Pro font family (system fonts)
-- Consistent spacing and shadows
-- Dark mode support
-- Responsive design
-
-## Building Your App
-
-1. Add your database schema in `backend/db.js`
-2. Create API endpoints in `backend/server.js`
-3. Build UI components in `frontend/src/`
-4. Use design tokens from `frontend/src/index.css`
-
-## Production Build
-
+**Clean data (should import 100%):**
 ```bash
-cd frontend
-npm run build
+project-files/items_clean.csv
 ```
 
-Built files will be in `frontend/dist/`
+**Messy data (will show auto-fixes):**
+```bash
+project-files/items_messy.csv
+```
+
+## Design Philosophy
+
+This tool prioritizes **effortless user experience**:
+1. **Automatic** - Fix what can be safely fixed
+2. **Transparent** - Show exactly what changed
+3. **Clear** - Make errors obvious and actionable
+4. **Fast** - No round-trips, instant feedback
+5. **Trustworthy** - Preview before commit, confirm after
+
+Built for warehouse operations admins who need to trust their data.

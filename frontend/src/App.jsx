@@ -39,8 +39,60 @@ function App() {
     }
   };
 
+  const transformFlatCSV = (item) => {
+    const transformed = { ...item };
+
+    // Parse flattened dimensions
+    if (item.length || item.width || item.height) {
+      transformed.dimensions = {
+        length: parseFloat(item.length),
+        width: parseFloat(item.width),
+        height: parseFloat(item.height),
+        unit: item.dimension_unit || 'cm'
+      };
+      delete transformed.length;
+      delete transformed.width;
+      delete transformed.height;
+      delete transformed.dimension_unit;
+    }
+
+    // Parse flattened vendors
+    const vendors = [];
+    for (let i = 1; i <= 3; i++) {
+      const vendorName = item[`vendor_${i}_name`];
+      const unitCost = item[`vendor_${i}_unit_cost`];
+
+      if (vendorName && unitCost) {
+        const vendor = {
+          vendor_name: vendorName,
+          unit_cost: parseFloat(unitCost)
+        };
+
+        if (item[`vendor_${i}_sku`]) vendor.vendor_sku = item[`vendor_${i}_sku`];
+        if (item[`vendor_${i}_lead_time_days`]) vendor.lead_time_days = parseInt(item[`vendor_${i}_lead_time_days`]);
+        if (item[`vendor_${i}_preferred`]) vendor.is_preferred = item[`vendor_${i}_preferred`] === 'true' || item[`vendor_${i}_preferred`] === true;
+
+        vendors.push(vendor);
+      }
+
+      // Clean up flat fields
+      delete transformed[`vendor_${i}_name`];
+      delete transformed[`vendor_${i}_sku`];
+      delete transformed[`vendor_${i}_unit_cost`];
+      delete transformed[`vendor_${i}_lead_time_days`];
+      delete transformed[`vendor_${i}_preferred`];
+    }
+
+    if (vendors.length > 0) {
+      transformed.vendors = vendors;
+    }
+
+    return transformed;
+  };
+
   const autoFixItem = (item) => {
-    const fixed = { ...item };
+    // First transform flat CSV structure
+    const fixed = transformFlatCSV(item);
     const changes = [];
 
     // Auto-fix SKU: uppercase and trim

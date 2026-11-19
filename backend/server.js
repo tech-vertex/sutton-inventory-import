@@ -70,6 +70,35 @@ function validateItem(item) {
     errors.push('If discontinued_on is set, is_active must be false');
   }
 
+  // Vendors validation: at most one preferred vendor
+  if (item.vendors && Array.isArray(item.vendors)) {
+    const preferredCount = item.vendors.filter(v => v.is_preferred === true).length;
+    if (preferredCount > 1) {
+      errors.push('At most one vendor can be marked as preferred');
+    }
+
+    // Validate vendor structure
+    item.vendors.forEach((vendor, idx) => {
+      if (!vendor.vendor_name || vendor.vendor_name.trim().length === 0) {
+        errors.push(`Vendor ${idx + 1}: vendor_name is required`);
+      }
+      if (vendor.unit_cost === undefined || vendor.unit_cost === null) {
+        errors.push(`Vendor ${idx + 1}: unit_cost is required`);
+      } else {
+        const cost = parseFloat(vendor.unit_cost);
+        if (isNaN(cost) || cost < 0) {
+          errors.push(`Vendor ${idx + 1}: unit_cost must be 0 or greater`);
+        }
+      }
+      if (vendor.lead_time_days !== undefined && vendor.lead_time_days !== null) {
+        const days = parseInt(vendor.lead_time_days);
+        if (isNaN(days) || days < 0) {
+          errors.push(`Vendor ${idx + 1}: lead_time_days must be 0 or greater`);
+        }
+      }
+    });
+  }
+
   return errors;
 }
 
